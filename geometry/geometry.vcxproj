@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f74db472-6c92-45fa-850c-8530e4f25fa3}</ProjectGuid>
-    <RootNamespace>tempSens</RootNamespace>
+    <ProjectGuid>{a736a760-7469-474f-8f47-8df1c0afb962}</ProjectGuid>
+    <RootNamespace>geometry</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
