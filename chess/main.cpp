@@ -35,6 +35,10 @@ int main() {
         }
 
         char pieceChar = '.';
+
+        Pawn* myPointer = dynamic_cast<Pawn*>(chessPieces[i]);
+        Pawn* myNullpointer=NULL;
+
         if (dynamic_cast<Pawn*>(chessPieces[i])) pieceChar = 'P';
         else if (dynamic_cast<Rook*>(chessPieces[i])) pieceChar = 'R';
         else if (dynamic_cast<Knight*>(chessPieces[i])) pieceChar = 'K';
