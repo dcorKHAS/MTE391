@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chess", "chess\chess.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animals_poly", "Animals_poly\Animals_poly.vcxproj", "{2F87FAD3-F40D-4077-8D91-28011869CFE7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geo_poly", "geo_poly\geo_poly.vcxproj", "{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{2F87FAD3-F40D-4077-8D91-28011869CFE7}.Release|x64.Build.0 = Release|x64
 		{2F87FAD3-F40D-4077-8D91-28011869CFE7}.Release|x86.ActiveCfg = Release|Win32
 		{2F87FAD3-F40D-4077-8D91-28011869CFE7}.Release|x86.Build.0 = Release|Win32
+		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Debug|x64.ActiveCfg = Debug|x64
+		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Debug|x64.Build.0 = Debug|x64
+		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Debug|x86.ActiveCfg = Debug|Win32
+		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Debug|x86.Build.0 = Debug|Win32
+		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x64.ActiveCfg = Release|x64
+		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x64.Build.0 = Release|x64
+		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x86.ActiveCfg = Release|Win32
+		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
