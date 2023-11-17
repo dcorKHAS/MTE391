@@ -7,7 +7,7 @@ protected:
     int startY;
 
 public:
-    ChessPiece(int x, int y) : startX(x), startY(y) {}
+    ChessPiece(int x, int y) : startX(x), startY(y) {    }
 
     virtual bool isMoveLegal(int endX, int endY) const = 0;
 

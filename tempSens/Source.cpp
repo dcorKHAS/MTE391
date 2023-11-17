@@ -22,7 +22,7 @@ sensor::~sensor()
 	
 }
 
-class tempSensor(sensor) {//Derived class
+class tempSensor : sensor {//Derived class
 
 
 
