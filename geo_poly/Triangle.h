@@ -6,7 +6,7 @@
 // Triangle - Subclass of Shape
 class Triangle : public Shape {
 public:
-    void draw() const {
+    void draw() const override {
         std::cout << "   *   " << std::endl;
         std::cout << "  * *  " << std::endl;
         std::cout << " *   * " << std::endl;

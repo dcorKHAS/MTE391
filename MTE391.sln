@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.7.34221.43
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tempSens", "tempSens\tempSens.vcxproj", "{F74DB472-6C92-45FA-850C-8530E4F25FA3}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animals_poly", "Animals_poly\Animals_poly.vcxproj", "{2F87FAD3-F40D-4077-8D91-28011869CFE7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geo_poly", "geo_poly\geo_poly.vcxproj", "{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cat_dog_SDL", "cat_dog_SDL\cat_dog_SDL.vcxproj", "{11A5C80D-0E9D-44B7-B441-054A11FA48FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x64.Build.0 = Release|x64
 		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x86.ActiveCfg = Release|Win32
 		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x86.Build.0 = Release|Win32
+		{11A5C80D-0E9D-44B7-B441-054A11FA48FE}.Debug|x64.ActiveCfg = Debug|x64
+		{11A5C80D-0E9D-44B7-B441-054A11FA48FE}.Debug|x64.Build.0 = Debug|x64
+		{11A5C80D-0E9D-44B7-B441-054A11FA48FE}.Debug|x86.ActiveCfg = Debug|Win32
+		{11A5C80D-0E9D-44B7-B441-054A11FA48FE}.Debug|x86.Build.0 = Debug|Win32
+		{11A5C80D-0E9D-44B7-B441-054A11FA48FE}.Release|x64.ActiveCfg = Release|x64
+		{11A5C80D-0E9D-44B7-B441-054A11FA48FE}.Release|x64.Build.0 = Release|x64
+		{11A5C80D-0E9D-44B7-B441-054A11FA48FE}.Release|x86.ActiveCfg = Release|Win32
+		{11A5C80D-0E9D-44B7-B441-054A11FA48FE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

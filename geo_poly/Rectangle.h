@@ -6,7 +6,7 @@
 // Rectangle - Subclass of Shape
 class Rectangle : public Shape {
 public:
-    void draw() const {
+    void draw()  const override {
         std::cout << "*******" << std::endl;
         std::cout << "*     *" << std::endl;
         std::cout << "*     *" << std::endl;
