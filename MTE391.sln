@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32106.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tempSens", "tempSens\tempSens.vcxproj", "{F74DB472-6C92-45FA-850C-8530E4F25FA3}"
 EndProject
@@ -70,7 +70,6 @@ Global
 		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x86.ActiveCfg = Release|Win32
 		{FFC68BF6-99DC-46DA-824D-C38E81D3AFB8}.Release|x86.Build.0 = Release|Win32
 		{B5FAC0E2-C623-4159-B4DE-723F7B1FA2FB}.Debug|x64.ActiveCfg = Debug|x64
-		{B5FAC0E2-C623-4159-B4DE-723F7B1FA2FB}.Debug|x64.Build.0 = Debug|x64
 		{B5FAC0E2-C623-4159-B4DE-723F7B1FA2FB}.Debug|x86.ActiveCfg = Debug|Win32
 		{B5FAC0E2-C623-4159-B4DE-723F7B1FA2FB}.Debug|x86.Build.0 = Debug|Win32
 		{B5FAC0E2-C623-4159-B4DE-723F7B1FA2FB}.Release|x64.ActiveCfg = Release|x64
