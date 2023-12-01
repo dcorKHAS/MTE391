@@ -2,20 +2,24 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <string>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 // Vertex Shader source code
-const GLchar* vertexSource = R"glsl(
-    #version 330 core
-    layout (location = 0) in vec3 position;
-    layout (location = 1) in vec3 color;
+const GLchar* vertexSource = R"ANYTHING(
+   #version 330 core
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec3 color;
 
-    out vec3 Color;
+uniform vec3 offset; // Uniform variable for position offset
 
-    void main() {
-        Color = color;
-        gl_Position = vec4(position, 1.0);
-    }
-)glsl";
+out vec3 Color;
+
+void main() {
+    Color = color;
+    gl_Position = vec4(position + offset, 1.0); // Apply the offset to the position
+}
+)ANYTHING";
 
 // Fragment Shader source code
 const GLchar* fragmentSource = R"glsl(
@@ -29,6 +33,7 @@ const GLchar* fragmentSource = R"glsl(
 )glsl";
 
 int main(int argc, char* argv[]) {
+  
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
@@ -91,14 +96,14 @@ int main(int argc, char* argv[]) {
          0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // Top, blue
     };
 
-    // Create VBO and VAO
+    // Create VBO(Vertex buffer object) and VAO (Vertex Array object)
     GLuint VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//To check
 
     // Position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
@@ -109,6 +114,8 @@ int main(int argc, char* argv[]) {
     glEnableVertexAttribArray(1);
 
     // Main loop
+    glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
+    float speed = 0.01f; // Movement speed
     bool running = true;
     while (running) {
         SDL_Event event;
@@ -116,14 +123,24 @@ int main(int argc, char* argv[]) {
             if (event.type == SDL_QUIT) {
                 running = false;
             }
+            if (event.type == SDL_KEYDOWN) {
+                switch (event.key.keysym.sym) {
+                case SDLK_w: offset.y += speed; break;
+                case SDLK_s: offset.y -= speed; break;
+                case SDLK_a: offset.x -= speed; break;
+                case SDLK_d: offset.x += speed; break;
+                }
+            }
         }
-
+      
         // Clear the screen
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Draw the triangle
         glUseProgram(shaderProgram);
+        GLint offsetLocation = glGetUniformLocation(shaderProgram, "offset");
+        glUniform3f(offsetLocation, offset.x, offset.y, offset.z);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
