@@ -15,6 +15,7 @@ public:
 	void run();
 
 	~ShaderManager();
+
 	GLuint getProgramId();
 };
 

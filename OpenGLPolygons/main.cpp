@@ -4,7 +4,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include "ShaderManager.h"
 // Vertex Shader source code
 const GLchar* vertexSource = R"ANYTHING(
    #version 330 core
@@ -73,20 +73,10 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Compile and activate shaders
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexSource, NULL);
-    glCompileShader(vertexShader);
-
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-    glCompileShader(fragmentShader);
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    glUseProgram(shaderProgram);
+    //Create a new shader manager from the heap
+    ShaderManager* myShader = new ShaderManager(vertexSource, fragmentSource);
+    
+    myShader->run();
 
     // Define vertices for a triangle
     float vertices[] = {
@@ -138,8 +128,8 @@ int main(int argc, char* argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Draw the triangle
-        glUseProgram(shaderProgram);
-        GLint offsetLocation = glGetUniformLocation(shaderProgram, "offset");
+        
+        GLint offsetLocation = glGetUniformLocation(myShader->getProgramId(), "offset");
         glUniform3f(offsetLocation, offset.x, offset.y, offset.z);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -149,9 +139,9 @@ int main(int argc, char* argv[]) {
     }
 
     // Clean up
-    glDeleteProgram(shaderProgram);
-    glDeleteShader(fragmentShader);
-    glDeleteShader(vertexShader);
+  
+    delete myShader;
+
     glDeleteBuffers(1, &VBO);
     glDeleteVertexArrays(1, &VAO);
 
