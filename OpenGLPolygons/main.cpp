@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "ShaderManager.h"
 #include "BufferManager.h"
+#include "Vertex.h"
 // Vertex Shader source code
 const GLchar* vertexSource = R"ANYTHING(
    #version 330 core
@@ -80,15 +81,25 @@ int main(int argc, char* argv[]) {
     myShader->run();
 
     // Define vertices for a triangle
-    float vertices[] = {
-        // Position         // Color
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // Bottom-left, red
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // Bottom-right, green
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // Top, blue
+    //float vertices[] = {
+    //    // Position         // Color
+    //    -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // Bottom-left, red
+    //     0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // Bottom-right, green
+    //     0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // Top, blue
+    //};
+
+    Vertex vertices[] = {
+
+       Vertex(glm::vec3(-0.5f, -0.5f, 0.0f) , glm::vec3(1.0f, 0.0f, 0.0f)),
+       Vertex(glm::vec3(0.5f, -0.5f, 0.0f) , glm::vec3(0.0f, 1.0f, 0.0f)),
+       Vertex(glm::vec3(0.0f,  0.5f, 0.0f) , glm::vec3(0.0f, 0.0f, 1.0f)),
+
+
+
+
     };
 
-
-   BufferManager* triangleBuffer = new BufferManager(vertices, 3, 6 * sizeof(float));
+   BufferManager* triangleBuffer = new BufferManager(vertices, 3);
 
 
     

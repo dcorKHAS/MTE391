@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <GL/glew.h>
+#include "Vertex.h"
 class BufferManager
 {
 
@@ -9,7 +10,7 @@ private:
 	GLuint VBO;
 
 public:
-	BufferManager(GLfloat vertices[], GLuint numOfvertices, GLuint vertexSize);
+	BufferManager(Vertex vertices[], GLuint numOfvertices);
 	~BufferManager();
 	void BindVAO();
 };

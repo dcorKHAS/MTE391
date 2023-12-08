@@ -1,8 +1,9 @@
 #include "BufferManager.h"
 #include <iostream>
-BufferManager::BufferManager(GLfloat vertices[], GLuint numOfvertices, GLuint vertexSize) {
+#include "Vertex.h"
+BufferManager::BufferManager(Vertex vertices[], GLuint numOfvertices) {
 
-
+    GLuint vertexSize = sizeof(Vertex);
     // Create VBO(Vertex buffer object) and VAO (Vertex Array object)
     
     glGenVertexArrays(1, &VAO);
@@ -13,14 +14,14 @@ BufferManager::BufferManager(GLfloat vertices[], GLuint numOfvertices, GLuint ve
     
     std::cout << sizeof(vertices) << "which are:" << vertices << std::endl;
     
-    glBufferData(GL_ARRAY_BUFFER, numOfvertices * vertexSize, vertices, GL_STATIC_DRAW);//To check
+    glBufferData(GL_ARRAY_BUFFER, (GLfloat)numOfvertices * vertexSize, vertices, GL_STATIC_DRAW);//To check
 
     // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)offsetof(Vertex, position));
     glEnableVertexAttribArray(0);
 
     // Color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)offsetof(Vertex, color));
     glEnableVertexAttribArray(1);
 
 
