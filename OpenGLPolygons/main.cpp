@@ -93,11 +93,7 @@ int main(int argc, char* argv[]) {
        Vertex(glm::vec3(-0.5f, -0.5f, 0.0f) , glm::vec3(1.0f, 0.0f, 0.0f)),
        Vertex(glm::vec3(0.5f, -0.5f, 0.0f) , glm::vec3(0.0f, 1.0f, 0.0f)),
        Vertex(glm::vec3(0.0f,  0.5f, 0.0f) , glm::vec3(0.0f, 0.0f, 1.0f)),
-
-
-
-
-    };
+       };
 
    BufferManager* triangleBuffer = new BufferManager(vertices, 3);
 

@@ -14,7 +14,7 @@ BufferManager::BufferManager(Vertex vertices[], GLuint numOfvertices) {
     
     std::cout << sizeof(vertices) << "which are:" << vertices << std::endl;
     
-    glBufferData(GL_ARRAY_BUFFER, (GLfloat)numOfvertices * vertexSize, vertices, GL_STATIC_DRAW);//To check
+    glBufferData(GL_ARRAY_BUFFER, (GLfloat)numOfvertices * (GLfloat)vertexSize, vertices, GL_STATIC_DRAW);//To check
 
     // Position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)offsetof(Vertex, position));
