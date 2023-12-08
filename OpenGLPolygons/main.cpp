@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "ShaderManager.h"
+#include "BufferManager.h"
 // Vertex Shader source code
 const GLchar* vertexSource = R"ANYTHING(
    #version 330 core
@@ -86,23 +87,28 @@ int main(int argc, char* argv[]) {
          0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // Top, blue
     };
 
-    // Create VBO(Vertex buffer object) and VAO (Vertex Array object)
-    GLuint VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
 
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//To check
+   BufferManager* triangleBuffer = new BufferManager(vertices, 3, 6 * sizeof(float));
 
-    // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
 
-    // Color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    
+    //// Create VBO(Vertex buffer object) and VAO (Vertex Array object)
+    //GLuint VBO, VAO;
+    //glGenVertexArrays(1, &VAO);
+    //glGenBuffers(1, &VBO);
 
+    //glBindVertexArray(VAO);
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//To check
+
+    //// Position attribute
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    //glEnableVertexAttribArray(0);
+
+    //// Color attribute
+    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    //glEnableVertexAttribArray(1);
+    
     // Main loop
     glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
     float speed = 0.01f; // Movement speed
@@ -131,9 +137,10 @@ int main(int argc, char* argv[]) {
         
         GLint offsetLocation = glGetUniformLocation(myShader->getProgramId(), "offset");
         glUniform3f(offsetLocation, offset.x, offset.y, offset.z);
-        glBindVertexArray(VAO);
+        triangleBuffer->BindVAO();
+       // glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        glBindVertexArray(0);
         // Swap buffers
         SDL_GL_SwapWindow(window);
     }
@@ -142,8 +149,7 @@ int main(int argc, char* argv[]) {
   
     delete myShader;
 
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
+    delete triangleBuffer;
 
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
