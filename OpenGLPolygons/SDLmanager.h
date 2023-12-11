@@ -1,9 +1,22 @@
 #pragma once
-class SDLmanager
+#include <SDL.h>
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <iostream>
+
+
+class SDLManager
 {
-	SDLmanager();//initial Setup
-	~SDLmanager();//final wrap up
-	void handleEvents();// keyboard input etc
+	public:
+		SDLManager();//initial Setup
+		~SDLManager();//final wrap up
+		void handleEvents(bool* running, glm::vec3* offset, float speed);// keyboard input etc
+		SDL_Window* getWindow();
+		void swap();
+	private:
+		SDL_Window* window;
+		SDL_GLContext context;
 
 };
+
 

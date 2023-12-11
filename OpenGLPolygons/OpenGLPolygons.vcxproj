@@ -137,13 +137,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\OpenGLTexture1\Transform.cpp" />
     <ClCompile Include="BufferManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SDLManager.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\OpenGLTexture1\Transform.h" />
     <ClInclude Include="BufferManager.h" />
+    <ClInclude Include="SDLManager.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
