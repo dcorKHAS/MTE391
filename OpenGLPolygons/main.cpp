@@ -4,6 +4,12 @@
 #include <string>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "ShaderManager.h"
+#include "BufferManager.h"
+#include "Vertex.h"
+#include "SDLmanager.h"
+#include "Transform.h"
+#include <glm/gtc/type_ptr.hpp>
 
 // Vertex Shader source code
 const GLchar* vertexSource = R"ANYTHING(
@@ -12,12 +18,12 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 color;
 
 uniform vec3 offset; // Uniform variable for position offset
-
+uniform mat4 model;
 out vec3 Color;
 
 void main() {
     Color = color;
-    gl_Position = vec4(position + offset, 1.0); // Apply the offset to the position
+    gl_Position = model*vec4(position, 1.0); // Apply the offset to the position
 }
 )ANYTHING";
 
@@ -34,130 +40,62 @@ const GLchar* fragmentSource = R"glsl(
 
 int main(int argc, char* argv[]) {
   
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
-        return 1;
-    }
+    Vertex vertices[] = {
 
-    // Set OpenGL attributes
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-    // Create a window
-    SDL_Window* window = SDL_CreateWindow("OpenGL Triangle", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    // Create OpenGL context
-    SDL_GLContext context = SDL_GL_CreateContext(window);
-    if (context == nullptr) {
-        std::cerr << "SDL_GL_CreateContext Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
-
-    // Initialize GLEW
-    glewExperimental = GL_TRUE;
-    if (glewInit() != GLEW_OK) {
-        std::cerr << "glewInit Error" << std::endl;
-        SDL_GL_DeleteContext(context);
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
-
-    // Compile and activate shaders
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexSource, NULL);
-    glCompileShader(vertexShader);
-
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-    glCompileShader(fragmentShader);
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    glUseProgram(shaderProgram);
-
-    // Define vertices for a triangle
-    float vertices[] = {
-        // Position         // Color
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // Bottom-left, red
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // Bottom-right, green
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // Top, blue
+    Vertex(glm::vec3(-0.5f, -0.5f, 0.0f) , glm::vec3(1.0f, 0.0f, 0.0f)),
+    Vertex(glm::vec3(0.5f, -0.5f, 0.0f) , glm::vec3(0.0f, 1.0f, 0.0f)),
+    Vertex(glm::vec3(0.0f,  0.5f, 0.0f) , glm::vec3(0.0f, 0.0f, 1.0f)),
     };
+    
+    Transform * transform = new Transform();
 
-    // Create VBO(Vertex buffer object) and VAO (Vertex Array object)
-    GLuint VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    SDLManager* sdlManager = new SDLManager();
 
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//To check
+    //Create a new shader manager from the heap
+    ShaderManager* myShader = new ShaderManager(vertexSource, fragmentSource);
+    
+    myShader->run();
 
-    // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // Color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    BufferManager* triangleBuffer = new BufferManager(vertices, 3);
 
     // Main loop
     glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
     float speed = 0.01f; // Movement speed
     bool running = true;
     while (running) {
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                running = false;
-            }
-            if (event.type == SDL_KEYDOWN) {
-                switch (event.key.keysym.sym) {
-                case SDLK_w: offset.y += speed; break;
-                case SDLK_s: offset.y -= speed; break;
-                case SDLK_a: offset.x -= speed; break;
-                case SDLK_d: offset.x += speed; break;
-                }
-            }
-        }
-      
+       
+        sdlManager->handleEvents(&running, transform);
+        
         // Clear the screen
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Draw the triangle
-        glUseProgram(shaderProgram);
-        GLint offsetLocation = glGetUniformLocation(shaderProgram, "offset");
-        glUniform3f(offsetLocation, offset.x, offset.y, offset.z);
-        glBindVertexArray(VAO);
+        
+        GLint modelLoc = glGetUniformLocation(myShader->getProgramId(), "model");
+        
+        glm::mat4 model = transform->GetModelMatrix();
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        
+       /* GLint offsetLocation = glGetUniformLocation(myShader->getProgramId(), "offset");
+        glUniform3f(offsetLocation, offset.x, offset.y, offset.z);*/
+        triangleBuffer->BindVAO();
+       // glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        glBindVertexArray(0);
+        
         // Swap buffers
-        SDL_GL_SwapWindow(window);
+        sdlManager->swap();
+
     }
 
     // Clean up
-    glDeleteProgram(shaderProgram);
-    glDeleteShader(fragmentShader);
-    glDeleteShader(vertexShader);
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
+  
+    delete myShader;
 
-    SDL_GL_DeleteContext(context);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    delete triangleBuffer;
+
+    delete sdlManager;
 
     return 0;
 }
