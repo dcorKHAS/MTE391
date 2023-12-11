@@ -60,7 +60,7 @@ SDL_Window*  SDLManager:: getWindow(){
 
 }
 
-void SDLManager::handleEvents(bool * running, glm::vec3 * offset, float speed) {
+void SDLManager::handleEvents(bool * running, Transform* transform) {
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -68,12 +68,7 @@ void SDLManager::handleEvents(bool * running, glm::vec3 * offset, float speed) {
             *running = false;
         }
         if (event.type == SDL_KEYDOWN) {
-            switch (event.key.keysym.sym) {
-            case SDLK_w: offset->y += speed; break;
-            case SDLK_s: offset->y -= speed; break;
-            case SDLK_a: offset->x -= speed; break;
-            case SDLK_d: offset->x += speed; break;
-            }
+            transform->HandleKeyInput(event.key.keysym.sym);
         }
     }
 

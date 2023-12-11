@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <iostream>
+#include "Transform.h"
 
 
 class SDLManager
@@ -10,7 +11,7 @@ class SDLManager
 	public:
 		SDLManager();//initial Setup
 		~SDLManager();//final wrap up
-		void handleEvents(bool* running, glm::vec3* offset, float speed);// keyboard input etc
+		void handleEvents(bool* running,Transform * transform);// keyboard input etc
 		SDL_Window* getWindow();
 		void swap();
 	private:

@@ -15,10 +15,10 @@ Transform::Transform(const glm::vec3& position,
 void Transform::HandleKeyInput(SDL_Keycode key) {
     switch (key) {
     case SDLK_DOWN:
-        Translate(glm::vec3(0.0f, 0.0f, 0.1f));
+        Translate(glm::vec3(0.0f, 0.1f, 0.0f));
         break;
     case SDLK_UP:
-        Translate(glm::vec3(0.0f, 0.0f, -0.1f));
+        Translate(glm::vec3(0.0f, -0.1f, -0.0f));
         break;
     case SDLK_LEFT:
         Translate(glm::vec3(-0.1f, 0.0f, 0.0f));
@@ -45,6 +45,7 @@ void Transform::HandleKeyInput(SDL_Keycode key) {
         Rotate(glm::radians(-45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         break;
         // Add more cases as needed
+
     }
 }
 

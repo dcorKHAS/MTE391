@@ -9,6 +9,8 @@
 #include "Vertex.h"
 #include "SDLmanager.h"
 #include "Transform.h"
+#include <glm/gtc/type_ptr.hpp>
+
 // Vertex Shader source code
 const GLchar* vertexSource = R"ANYTHING(
    #version 330 core
@@ -16,12 +18,12 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 color;
 
 uniform vec3 offset; // Uniform variable for position offset
-
+uniform mat4 model;
 out vec3 Color;
 
 void main() {
     Color = color;
-    gl_Position = vec4(position + offset, 1.0); // Apply the offset to the position
+    gl_Position = model*vec4(position, 1.0); // Apply the offset to the position
 }
 )ANYTHING";
 
@@ -44,7 +46,9 @@ int main(int argc, char* argv[]) {
     Vertex(glm::vec3(0.5f, -0.5f, 0.0f) , glm::vec3(0.0f, 1.0f, 0.0f)),
     Vertex(glm::vec3(0.0f,  0.5f, 0.0f) , glm::vec3(0.0f, 0.0f, 1.0f)),
     };
-   
+    
+    Transform * transform = new Transform();
+
     SDLManager* sdlManager = new SDLManager();
 
     //Create a new shader manager from the heap
@@ -60,7 +64,7 @@ int main(int argc, char* argv[]) {
     bool running = true;
     while (running) {
        
-        sdlManager->handleEvents(&running, &offset, speed);
+        sdlManager->handleEvents(&running, transform);
         
         // Clear the screen
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -68,8 +72,13 @@ int main(int argc, char* argv[]) {
 
         // Draw the triangle
         
-        GLint offsetLocation = glGetUniformLocation(myShader->getProgramId(), "offset");
-        glUniform3f(offsetLocation, offset.x, offset.y, offset.z);
+        GLint modelLoc = glGetUniformLocation(myShader->getProgramId(), "model");
+        
+        glm::mat4 model = transform->GetModelMatrix();
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        
+       /* GLint offsetLocation = glGetUniformLocation(myShader->getProgramId(), "offset");
+        glUniform3f(offsetLocation, offset.x, offset.y, offset.z);*/
         triangleBuffer->BindVAO();
        // glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
